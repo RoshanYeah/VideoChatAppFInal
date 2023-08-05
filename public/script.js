@@ -1,3 +1,5 @@
+const { json } = require("body-parser");
+
 const socket = io("/");
 
 var peer = new Peer(undefined, {
@@ -105,6 +107,27 @@ $(function () {
             $("#stop_video").toggleClass("background_red");
             $("#stop_video").html(html)
         }
+    })
+
+    $("#invite_button").click(function(){
+        const to = prompt("Enter the email address:")
+        var data = {
+            uri: window.location.href,
+            to:to,
+        }
+        $.ajax({
+            url:"/sentEmail",
+            type:"POST",
+            data:JSON.stringify(data),
+            dataType:"json",
+            contentType:"application/json",
+            success:function(){
+                alert("INVITATION HAS BEEN SENT")
+            },
+            error:function(result){
+                alert(result.responseJSON)
+            }
+        })
     })
 
 })
